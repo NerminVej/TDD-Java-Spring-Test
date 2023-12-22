@@ -1,5 +1,6 @@
 package com.example.TDDTest.post;
 
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PostController.class)
 @AutoConfigureMockMvc
@@ -28,6 +31,13 @@ public class PostControllerTest {
                 new Post(1,1,"Hello, World!", "This is my first post.",null),
                 new Post(2,1,"Second Post", "This is my second post.",null)
         );
+    }
+
+
+    @Test
+    void shouldFIndAllPosts() throws Exception {
+        mockMvc perform(get( urlTemplate: "/api/posts"))
+        .andExpect(status().isOk());
     }
 
 
