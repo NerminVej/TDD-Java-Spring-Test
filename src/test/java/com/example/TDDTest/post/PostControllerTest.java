@@ -117,4 +117,10 @@ public class PostControllerTest {
     }
 
 
+    @Test
+    void shouldCreateNewPostWhenGivenValidID() throws Exception {
+
+    }
+
+
 }
