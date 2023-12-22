@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.StringTemplate.STR;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.RequestEntity.put;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -178,6 +179,11 @@ public class PostControllerTest {
                         .contentType("application/json")
                         .content(json))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldDeletePostWhenGivenValidID() throws Exception {
+
     }
 
 
