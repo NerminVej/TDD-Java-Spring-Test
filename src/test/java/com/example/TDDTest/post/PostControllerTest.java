@@ -97,7 +97,23 @@ public class PostControllerTest {
 
     @Test
     void shouldCreateNewPostWhenGivenValidID() throws Exception {
-       
+        Post post = new Post(3,1,"This is my brand new post", "TEST BODY",null);
+        when(repository.save(post)).thenReturn(post);
+        String json = STR."""
+                {
+                    "id":\{post.id()},
+                    "userId":\{post.userId()},
+                    "title":"\{post.title()}",
+                    "body":"\{post.body()}",
+                    "version": null
+                }
+                """;
+
+        mockMvc.perform(post("/api/posts")
+                        .contentType("application/json")
+                        .content(json))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(json));
     }
 
 
