@@ -38,4 +38,20 @@ public class PostController {
         return repository.save(post);
     }
 
+    @PutMapping("/{id}")
+    Post update(@PathVariable Integer id, @RequestBody Post post) {
+        Optional<Post> existing = repository.findById(id);
+        if(existing.isPresent()) {
+            Post updatedPost = new Post(existing.get().id(),
+                    existing.get().userId(),
+                    post.title(),
+                    post.body(),
+                    existing.get().version());
+
+            return repository.save(updatedPost);
+        } else {
+            throw new PostNotFoundException();
+        }
+    }
+
 }
