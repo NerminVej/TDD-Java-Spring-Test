@@ -140,7 +140,23 @@ public class PostControllerTest {
 
     @Test
     void shouldUpdatePostWhenGivenValidPost() throws Exception {
+        Post updated = new Post(1,1,"This is my brand new post", "UPDATED BODY",1);
+        when(repository.findById(1)).thenReturn(Optional.of(posts.get(0)));
+        when(repository.save(updated)).thenReturn(updated);
+        String requestBody = STR."""
+                {
+                    "id":\{updated.id()},
+                    "userId":\{updated.userId()},
+                    "title":"\{updated.title()}",
+                    "body":"\{updated.body()}",
+                    "version": \{updated.version()}
+                }
+                """;
 
+        mockMvc.perform(put("/api/posts/1")
+                        .contentType("application/json")
+                        .content(requestBody))
+                .andExpect(status().isOk());
     }
 
 
