@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
@@ -71,6 +72,11 @@ public class PostControllerTest {
 
         JSONAssert.assertEquals(jsonResponse, resultActions.andReturn().getResponse().getContentAsString(), false);
 
+    }
+
+    @Test
+    void shouldFindPostWhenGivenValidID() {
+        when(repository.findById(1)).thenReturn(Optional.of(posts.get(0)));
     }
 
 
