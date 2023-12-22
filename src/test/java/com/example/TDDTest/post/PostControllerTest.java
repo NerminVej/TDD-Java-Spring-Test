@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static java.lang.StringTemplate.STR;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.RequestEntity.put;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -157,6 +158,26 @@ public class PostControllerTest {
                         .contentType("application/json")
                         .content(requestBody))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldNotUpdateAndThrowNotFoundWhenGivenAnInvalidPostID() throws Exception {
+        Post updated = new Post(50,1,"This is my brand new post", "UPDATED BODY",1);
+        when(repository.save(updated)).thenReturn(updated);
+        String json = STR."""
+                {
+                    "id":\{updated.id()},
+                    "userId":\{updated.userId()},
+                    "title":"\{updated.title()}",
+                    "body":"\{updated.body()}",
+                    "version": \{updated.version()}
+                }
+                """;
+
+        mockMvc.perform(put("/api/posts/999")
+                        .contentType("application/json")
+                        .content(json))
+                .andExpect(status().isNotFound());
     }
 
 
