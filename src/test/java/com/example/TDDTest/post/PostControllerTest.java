@@ -138,5 +138,10 @@ public class PostControllerTest {
                 .andExpect(content().json(json));
     }
 
+    @Test
+    void shouldUpdatePostWhenGivenValidPost() throws Exception {
+
+    }
+
 
 }
