@@ -183,7 +183,12 @@ public class PostControllerTest {
 
     @Test
     void shouldDeletePostWhenGivenValidID() throws Exception {
+        doNothing().when(repository).deleteById(1);
 
+        mockMvc.perform(delete("/api/posts/1"))
+                .andExpect(status().isNoContent());
+
+        verify(repository, times(1)).deleteById(1);
     }
 
 
