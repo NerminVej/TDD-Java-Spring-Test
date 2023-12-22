@@ -36,7 +36,7 @@ public class PostControllerTest {
 
     @Test
     void shouldFIndAllPosts() throws Exception {
-        mockMvc perform(get( urlTemplate: "/api/posts"))
+        mockMvc.perform(get( urlTemplate: "/api/posts"))
         .andExpect(status().isOk());
     }
 

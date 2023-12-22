@@ -11,6 +11,12 @@ import java.util.List;
 public class PostController {
 
 
+    private final PostRepository postRepository;
+
+    public PostController(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
+
     @GetMapping("")
     List<Post> findAll() {
         return null;
