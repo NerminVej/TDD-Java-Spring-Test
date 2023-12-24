@@ -76,5 +76,24 @@ public class BlogServiceTest {
         verify(blogRepository, times(1)).save(blogToCreate);
     }
 
+    @Test
+    void testUpdateBlog() {
+        Long blogId = 1L;
+        Blog existingBlog = new Blog(blogId, "Existing Title", "Existing Content");
+        Blog updatedBlog = new Blog(blogId, "Updated Title", "Updated Content");
+
+        when(blogRepository.findById(blogId)).thenReturn(Optional.of(existingBlog));
+        when(blogRepository.save(existingBlog)).thenReturn(updatedBlog);
+
+        Optional<Blog> result = blogService.updateBlog(blogId, updatedBlog);
+
+        assertTrue(result.isPresent());
+        assertEquals("Updated Title", result.get().getTitle());
+        assertEquals("Updated Content", result.get().getContent());
+
+        verify(blogRepository, times(1)).findById(blogId);
+        verify(blogRepository, times(1)).save(existingBlog);
+    }
+
 
 }
