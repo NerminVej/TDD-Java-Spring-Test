@@ -5,10 +5,7 @@ import com.example.blogTDD.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +28,12 @@ public class BlogController {
         Optional<Blog> blog = blogService.getBlogById(id);
         return blog.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping
+    public ResponseEntity<Blog> createBlog(@RequestBody Blog blog) {
+        Blog createdBlog = blogService.createBlog(blog);
+        return new ResponseEntity<>(createdBlog, HttpStatus.CREATED);
     }
 
 
