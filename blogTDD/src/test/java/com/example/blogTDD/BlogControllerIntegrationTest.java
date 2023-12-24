@@ -55,7 +55,7 @@ class BlogControllerIntegrationTest {
 
         when(blogService.getBlogById(blogId)).thenReturn(Optional.of(blog));
 
-        mockMvc.perform(get("/blogs/{id}", blogId))
+        mockMvc.perform(get("/api/blogs/{id}", blogId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", is("Test Title")))
                 .andExpect(jsonPath("$.content", is("Test Content")));
