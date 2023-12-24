@@ -36,6 +36,13 @@ public class BlogController {
         return new ResponseEntity<>(createdBlog, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Blog> updateBlog(@PathVariable Long id, @RequestBody Blog updatedBlog) {
+        Optional<Blog> result = blogService.updateBlog(id, updatedBlog);
+        return result.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 
 
 }
