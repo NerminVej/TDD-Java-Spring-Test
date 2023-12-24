@@ -109,5 +109,34 @@ public class BlogServiceTest {
         verify(blogRepository, never()).save(any());
     }
 
+    @Test
+    void testDeleteBlog() {
+        Long blogId = 1L;
+        Blog blogToDelete = new Blog(blogId, "Test Title", "Test Content");
+
+        when(blogRepository.findById(blogId)).thenReturn(Optional.of(blogToDelete));
+
+        boolean result = blogService.deleteBlog(blogId);
+
+        assertTrue(result);
+
+        verify(blogRepository, times(1)).findById(blogId);
+        verify(blogRepository, times(1)).delete(blogToDelete);
+    }
+
+    @Test
+    void testDeleteBlogWhenNotFound() {
+        Long blogId = 1L;
+
+        when(blogRepository.findById(blogId)).thenReturn(Optional.empty());
+
+        boolean result = blogService.deleteBlog(blogId);
+
+        assertFalse(result);
+
+        verify(blogRepository, times(1)).findById(blogId);
+        verify(blogRepository, never()).delete(any());
+    }
+
 
 }
