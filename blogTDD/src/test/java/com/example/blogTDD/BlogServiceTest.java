@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
+
+
 public class BlogServiceTest {
 
 
@@ -32,14 +35,11 @@ public class BlogServiceTest {
 
     @Test
     void getAllBlogs() {
-        // Arrange
         List<Blog> blogs = new ArrayList<>();
         when(blogRepository.findAll()).thenReturn(blogs);
 
-        // Act
         List<Blog> result = blogService.getAllBlogs();
 
-        // Assert
         assertEquals(blogs, result);
         verify(blogRepository, times(1)).findAll();
     }
