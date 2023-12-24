@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
@@ -57,6 +58,22 @@ public class BlogServiceTest {
         assertTrue(result.isPresent());
         assertEquals(blog, result.get());
         verify(blogRepository, times(1)).findById(blogId);
+    }
+
+    @Test
+    void testCreateBlog() {
+        Blog blogToCreate = new Blog("Test Title", "Test Content");
+        Blog savedBlog = new Blog(1L, "Test Title", "Test Content");
+
+        when(blogRepository.save(blogToCreate)).thenReturn(savedBlog);
+
+        Blog createdBlog = blogService.createBlog(blogToCreate);
+
+        assertNotNull(createdBlog.getId());
+        assertEquals("Test Title", createdBlog.getTitle());
+        assertEquals("Test Content", createdBlog.getContent());
+
+        verify(blogRepository, times(1)).save(blogToCreate);
     }
 
 
