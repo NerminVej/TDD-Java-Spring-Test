@@ -74,6 +74,20 @@ public class BlogControllerTest {
     }
 
 
+    @Test
+    void testCreateBlog() {
+        Blog blogToCreate = new Blog("Test Title", "Test Content");
+        Blog createdBlog = new Blog(1L, "Test Title", "Test Content");
+
+        when(blogService.createBlog(blogToCreate)).thenReturn(createdBlog);
+
+        ResponseEntity<Blog> response = blogController.createBlog(blogToCreate);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(createdBlog, response.getBody());
+
+        verify(blogService, times(1)).createBlog(blogToCreate);
+    }
 
 
 
