@@ -44,7 +44,16 @@ public class BlogService {
         return Optional.empty();
     }
 
+    public boolean deleteBlog(Long id) {
+        Optional<Blog> blogToDelete = blogRepository.findById(id);
 
+        if (blogToDelete.isPresent()) {
+            blogRepository.delete(blogToDelete.get());
+            return true;
+        }
+
+        return false;
+    }
 
 
 
