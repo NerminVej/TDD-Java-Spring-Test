@@ -1,5 +1,6 @@
 package com.example.blogTDD;
 
+import com.example.blogTDD.controllers.BlogController;
 import com.example.blogTDD.models.Blog;
 import com.example.blogTDD.services.BlogService;
 import org.junit.jupiter.api.BeforeEach;
