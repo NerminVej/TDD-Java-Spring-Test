@@ -39,7 +39,7 @@ class BlogControllerIntegrationTest {
 
         when(blogService.getAllBlogs()).thenReturn(blogs);
 
-        mockMvc.perform(get("/blogs"))
+        mockMvc.perform(get("/api/blogs"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].title", is("Title 1")))
