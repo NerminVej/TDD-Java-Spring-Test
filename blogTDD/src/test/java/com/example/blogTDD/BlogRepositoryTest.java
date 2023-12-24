@@ -1,6 +1,7 @@
 package com.example.blogTDD;
 
 import com.example.blogTDD.models.Blog;
+import com.example.blogTDD.repositories.BlogRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
@@ -16,13 +17,13 @@ public class BlogRepositoryTest {
 
     @Test
     public void testSaveBlog() {
-        // Arrange
+
         Blog blogToSave = new Blog("Test Title", "Test Content");
 
-        // Act
+
         Blog savedBlog = blogRepository.save(blogToSave);
 
-        // Assert
+
         assertNotNull(savedBlog.getId());
         assertEquals("Test Title", savedBlog.getTitle());
         assertEquals("Test Content", savedBlog.getContent());
