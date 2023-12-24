@@ -90,5 +90,20 @@ public class BlogControllerTest {
     }
 
 
+    @Test
+    void testUpdateBlog() {
+        Long blogId = 1L;
+        Blog updatedBlog = new Blog("Updated Title", "Updated Content");
+        Blog existingBlog = new Blog(blogId, "Test Title", "Test Content");
+
+        when(blogService.updateBlog(blogId, updatedBlog)).thenReturn(Optional.of(existingBlog));
+
+        ResponseEntity<Blog> response = blogController.updateBlog(blogId, updatedBlog);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(existingBlog, response.getBody());
+
+        verify(blogService, times(1)).updateBlog(blogId, updatedBlog);
+    }
 
 }
