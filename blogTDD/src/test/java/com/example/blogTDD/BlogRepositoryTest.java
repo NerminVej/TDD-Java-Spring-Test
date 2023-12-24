@@ -32,4 +32,16 @@ public class BlogRepositoryTest {
         assertEquals("Test Content", savedBlog.getContent());
     }
 
+    @Test
+    public void testFindBlogById() {
+        Blog blogToSave = new Blog("Test Title", "Test Content");
+        Blog savedBlog = blogRepository.save(blogToSave);
+
+        Blog foundBlog = blogRepository.findById(savedBlog.getId()).orElse(null);
+
+        assertNotNull(foundBlog);
+        assertEquals("Test Title", foundBlog.getTitle());
+        assertEquals("Test Content", foundBlog.getContent());
+    }
+
 }
