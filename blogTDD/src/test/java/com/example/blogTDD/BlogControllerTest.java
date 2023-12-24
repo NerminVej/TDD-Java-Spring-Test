@@ -106,4 +106,30 @@ public class BlogControllerTest {
         verify(blogService, times(1)).updateBlog(blogId, updatedBlog);
     }
 
+    @Test
+    void testDeleteBlog() {
+        Long blogId = 1L;
+
+        when(blogService.deleteBlog(blogId)).thenReturn(true);
+
+        ResponseEntity<Void> response = blogController.deleteBlog(blogId);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+        verify(blogService, times(1)).deleteBlog(blogId);
+    }
+
+    @Test
+    void testDeleteBlogNotFound() {
+        Long blogId = 1L;
+
+        when(blogService.deleteBlog(blogId)).thenReturn(false);
+
+        ResponseEntity<Void> response = blogController.deleteBlog(blogId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+        verify(blogService, times(1)).deleteBlog(blogId);
+    }
+
 }
