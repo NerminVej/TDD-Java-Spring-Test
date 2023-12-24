@@ -31,6 +31,21 @@ public class BlogService {
         return blogRepository.save(blog);
     }
 
+    public Optional<Blog> updateBlog(Long id, Blog updatedBlog) {
+        Optional<Blog> existingBlog = blogRepository.findById(id);
+
+        if (existingBlog.isPresent()) {
+            Blog blogToUpdate = existingBlog.get();
+            blogToUpdate.setTitle(updatedBlog.getTitle());
+            blogToUpdate.setContent(updatedBlog.getContent());
+            return Optional.of(blogRepository.save(blogToUpdate));
+        }
+
+        return Optional.empty();
+    }
+
+    
+
 
 
 }
