@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -57,6 +58,22 @@ class BlogControllerIntegrationTest {
 
         mockMvc.perform(get("/api/blogs/{id}", blogId))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is("Test Title")))
+                .andExpect(jsonPath("$.content", is("Test Content")));
+    }
+
+    @Test
+    void testCreateBlog() throws Exception {
+        Blog blogToCreate = new Blog("Test Title", "Test Content");
+        Blog createdBlog = new Blog(1L, "Test Title", "Test Content");
+
+        when(blogService.createBlog(any())).thenReturn(createdBlog);
+        
+        mockMvc.perform(post("/api/blogs")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(blogToCreate)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("Test Title")))
                 .andExpect(jsonPath("$.content", is("Test Content")));
     }
