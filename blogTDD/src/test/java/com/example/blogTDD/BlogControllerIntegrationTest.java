@@ -94,4 +94,14 @@ class BlogControllerIntegrationTest {
                 .andExpect(jsonPath("$.content", is("Test Content")));
     }
 
+    @Test
+    void testDeleteBlog() throws Exception {
+        Long blogId = 1L;
+
+        when(blogService.deleteBlog(blogId)).thenReturn(true);
+
+        mockMvc.perform(delete("/api/blogs/{id}", blogId))
+                .andExpect(status().isNoContent());
+    }
+
 }
