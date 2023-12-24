@@ -27,6 +27,10 @@ public class BlogService {
         return blogRepository.findById(id);
     }
 
+    public Blog createBlog(Blog blog) {
+        return blogRepository.save(blog);
+    }
+
 
 
 }
