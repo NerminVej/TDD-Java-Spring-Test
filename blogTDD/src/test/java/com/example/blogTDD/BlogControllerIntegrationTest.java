@@ -68,12 +68,28 @@ class BlogControllerIntegrationTest {
         Blog createdBlog = new Blog(1L, "Test Title", "Test Content");
 
         when(blogService.createBlog(any())).thenReturn(createdBlog);
-        
+
         mockMvc.perform(post("/api/blogs")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(blogToCreate)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("Test Title")))
+                .andExpect(jsonPath("$.content", is("Test Content")));
+    }
+
+    @Test
+    void testUpdateBlog() throws Exception {
+        Long blogId = 1L;
+        Blog updatedBlog = new Blog("Updated Title", "Updated Content");
+        Blog existingBlog = new Blog(blogId, "Test Title", "Test Content");
+
+        when(blogService.updateBlog(eq(blogId), any())).thenReturn(Optional.of(existingBlog));
+
+        mockMvc.perform(put("/api/blogs/{id}", blogId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBlog)))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", is("Test Title")))
                 .andExpect(jsonPath("$.content", is("Test Content")));
     }
